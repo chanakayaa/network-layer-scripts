@@ -1,17 +1,18 @@
 from scapy.all import *
 
-# Sending ARP Requests
-
-
-target_mac = "8c:94:1f:03:73:85"
-
+# Target MAC address and broadcast address
+target_mac = "xx:yy:xx:yy:xx:yy"
 broadcast = "ff:ff:ff:ff:ff:ff"
 
-arp = ARP(op=1, pdst="141.11.82.20", hwdst=target_mac)
+# Creating an ARP request
+arp = ARP(op=1, pdst="xx.xx.xx.xx", hwdst=target_mac)
 
+# Encapsulating the ARP request into an Ethernet frame
 ether = Ether(dst=broadcast)
 
-packet = ether/arp
+# Combining the Ethernet and ARP layers into one packet
+packet = ether / arp
 
+# Sending the packet in an infinite loop
 while True:
-	sendp(packet)
+    sendp(packet)
