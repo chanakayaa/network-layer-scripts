@@ -1,0 +1,48 @@
+### Script Description:
+
+**ARP Request Flood Script**
+
+This Python script uses Scapy to continuously send ARP (Address Resolution Protocol) requests to a target on the network. The script is designed to broadcast ARP requests to the entire network, with the goal of sending requests for the target's IP address in an attempt to flood the network with ARP traffic.
+
+### Attack Details:
+
+- **ARP Requests**: The ARP protocol is used to map an IP address to a physical MAC address. The script constructs ARP requests and sends them over the network, asking for the MAC address of a specific IP.
+  
+- **ARP Flooding**: Flooding the network with ARP requests can lead to network congestion, impacting the performance of devices on the network and potentially exhausting the resources of the target or any intermediate networking devices.
+
+### How the Script Works:
+
+1. **Creating ARP Requests**:
+   - The script builds ARP requests using the Scapy library. It specifies the target IP address and broadcasts the request to the entire network. The target MAC address is specified as a broadcast address (`ff:ff:ff:ff:ff:ff`), ensuring that the packet is sent to all devices in the network.
+
+2. **Sending Packets in a Loop**:
+   - The script sends ARP requests in an infinite loop using Scapy's `sendp()` function. This continually broadcasts the requests, potentially overwhelming the network.
+
+### How to Run the Script:
+
+1. **Prerequisites**:
+   - Install Scapy:
+     ```bash
+     pip install scapy
+     ```
+   - The script must be run with root or administrative privileges to send raw network packets.
+
+2. **Running the Script**:
+   - Once the script is configured with the correct target MAC address and IP address, simply run it with Python 3:
+     ```bash
+     sudo python3 arp_flood.py
+     ```
+
+3. **Customizing the Script**:
+   - You can change the following values in the script:
+     - `target_mac`: The MAC address of the target device.
+     - `pdst`: The target IP address you want to query with ARP requests.
+
+
+
+### Stopping the Script:
+
+- Press `Ctrl+C` to stop the script and cease sending ARP requests.
+
+### Disclaimer:
+This script is for educational purposes only. Unauthorized use of ARP flooding attacks is illegal and unethical. Ensure you have proper authorization before conducting any network tests.
