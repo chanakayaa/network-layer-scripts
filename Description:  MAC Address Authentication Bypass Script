@@ -1,0 +1,64 @@
+### Script Description:
+
+**MAC Address Authentication Bypass Script**
+
+This Python script attempts to bypass network access control (NAC) by spoofing a list of authorized MAC addresses on a given network interface. It works by cycling through a set of known or authorized MAC addresses and changing the MAC address of the attacker's machine, thereby attempting to gain access to a restricted network that uses MAC-based authentication.
+
+Network Access Control systems often rely on authorized MAC addresses to identify and allow devices onto a network. This script seeks to bypass that control by impersonating authorized devices with valid MAC addresses.
+
+### Attack Details:
+
+- **MAC Address Spoofing**: This attack works by changing the MAC address of the attacker's network interface to one that is authorized by the NAC system. The script repeatedly changes the MAC address, allowing a delay for the system to process the change, in the hope of gaining network access.
+  
+- **Bypassing NAC**: Many NAC systems use MAC address-based authentication to allow or deny devices onto the network. By spoofing the MAC address of a device that is allowed access, an attacker can potentially bypass these controls.
+
+### How the Script Works:
+
+1. **Changing MAC Address**:
+   - The **`change_mac(interface, new_mac)`** function is responsible for changing the MAC address of the specified network interface using system commands.
+   
+2. **Generating a Random MAC Address**:
+   - The **`generate_random_mac()`** function generates a random MAC address if needed (e.g., for fallback or testing purposes).
+
+3. **Attempting the Bypass**:
+   - The **`attempt_bypass(interface, mac_list, delay)`** function cycles through the list of authorized MAC addresses. For each MAC address, the script changes the MAC address of the interface, then sleeps for the specified delay to allow the NAC system to process the change. This process repeats for all the MAC addresses in the list.
+
+### How to Run the Script:
+
+1. **Prerequisites**:
+   - You need **Python 3.x** installed.
+   - Root or administrative privileges are required to change the MAC address and modify network settings.
+   - You also need a list of authorized MAC addresses to spoof.
+
+2. **Running the Script**:
+   - The script takes several arguments:
+     - `-i`, `--interface`: The network interface to change the MAC address (e.g., `eth0`, `wlan0`).
+     - `-m`, `--mac-list`: A list of authorized MAC addresses to cycle through.
+     - `-d`, `--delay`: The time delay (in seconds) between attempts (default is 5 seconds).
+   
+   Example:
+   ```bash
+   sudo python3 mac_bypass.py -i eth0 -m xx:yy:xx:yy:xx:yy xx:yy:xx:yy:xx:yy -d 5
+   ```
+
+   This command will attempt to spoof the MAC addresses `xx:yy:xx:yy:xx:yy` and `xx:yy:xx:yy:xx:yy` on interface `eth0`, with a 5-second delay between each attempt.
+
+3. **Script Options**:
+   - `-i`, `--interface`: Specify the network interface to use.
+   - `-m`, `--mac-list`: List of authorized MAC addresses to cycle through.
+   - `-d`, `--delay`: Delay (in seconds) between attempts (default is 5 seconds).
+
+### Example Run:
+
+```bash
+sudo python3 mac_bypass.py -i eth0 -m 00:1A:2B:3C:4D:5E 00:FF:EE:DD:CC:BB -d 3
+```
+
+This example attempts to change the MAC address to `00:1A:2B:3C:4D:5E` and `00:FF:EE:DD:CC:BB` on `eth0`, waiting 3 seconds between attempts.
+
+### Stopping the Script:
+
+- The script can be interrupted at any time using `Ctrl+C`. The network interface should revert to its original MAC address, but it's good practice to manually reset it if needed.
+
+### Disclaimer:
+This script is intended for educational and research purposes only. Unauthorized use of MAC address spoofing is illegal and unethical. Ensure that you have proper authorization before conducting any tests on a network.
