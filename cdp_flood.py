@@ -6,7 +6,7 @@ import random
 
 def generate_cdp_packet():
     # Generate a simple CDP packet
-    cdp_packet = Ether(dst="01:00:0c:cc:cc:cc", src=RandMAC()) / \
+    cdp_packet = Ether(dst="X.X.X.X", src=RandMAC()) / \
                  LLC() / SNAP() / \
                  Raw(load="\x02\x01\x00\x0c\x00\x00\x00\x00")
     return cdp_packet
