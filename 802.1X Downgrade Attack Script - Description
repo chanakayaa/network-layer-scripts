@@ -1,0 +1,47 @@
+### Script Description:
+
+**802.1X Downgrade Attack Script**
+
+This Python script is designed to exploit potential vulnerabilities or misconfigurations in 802.1X authentication systems by attempting to downgrade the security protocol in use. The attack is executed by sending specific EAPOL (Extensible Authentication Protocol over LAN) packets that may disrupt or manipulate the normal authentication process, potentially leading to the use of weaker security protocols.
+
+The script includes two main functions:
+1. **`send_eapol_start()`**: Sends an EAPOL-Start packet to initiate the 802.1X authentication process.
+2. **`send_eapol_logoff()`**: Sends an EAPOL-Logoff packet to simulate a user logging off, which may trigger a downgrade in the authentication process.
+
+The attack sequence involves sending both EAPOL-Start and EAPOL-Logoff packets in rapid succession, which could exploit weaknesses in the 802.1X protocol, especially if the network is configured to fall back to less secure authentication methods under certain conditions.
+
+### Attack Details:
+
+- **802.1X Downgrade Attack**: This attack attempts to force a network using 802.1X authentication to downgrade its security level by sending a logoff signal and reinitiating the process, potentially causing the system to fall back to a less secure protocol (e.g., from WPA2 to WPA or other less secure methods). It exploits misconfigurations or weaknesses in the 802.1X protocol handling that might allow for weaker authentication methods.
+
+### How to Run the Script:
+
+1. **Prerequisites**:
+   - The script requires **Python 3.x** and **Scapy**, a Python package for packet manipulation. You can install Scapy with the following command:
+     ```bash
+     pip install scapy
+     ```
+   - Root or administrative privileges may be required to interact with network interfaces.
+
+2. **Running the Script**:
+   - To run the script, you need to specify the network interface that will be used for the attack. You can find your network interface name by using the following command:
+     ```bash
+     ifconfig  # On Linux/macOS
+     ipconfig  # On Windows
+     ```
+   - Once you know the network interface, execute the script as follows:
+     ```bash
+     sudo ./downgrade_attack.py -i <interface>
+     ```
+     Replace `<interface>` with the name of the network interface you want to use (e.g., `eth0`, `wlan0`, etc.).
+
+3. **Example**:
+   ```bash
+   sudo ./downgrade_attack.py -i eth0
+   ```
+
+4. **Script Options**:
+   - `-i`, `--interface`: Specify the network interface to use for the attack (required).
+
+### Disclaimer:
+This script is for educational and research purposes only. Unauthorized use of this script on networks without explicit permission is illegal and unethical. Ensure that you have proper authorization before conducting any tests on a network.
