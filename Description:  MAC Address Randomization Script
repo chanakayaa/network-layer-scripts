@@ -1,0 +1,49 @@
+### Script Description:
+
+**MAC Address Randomization Script**
+
+This Python script performs MAC address randomization on a specified network interface. It continuously changes the MAC address of the network interface every 50 seconds, using a separate thread for the task. The script is designed for use on Windows systems, leveraging the `netsh` command and Windows registry to update the MAC address.
+
+### How It Works:
+
+1. **Threading**:
+   - A separate thread (`MyThread`) is used to continuously change the MAC address every 50 seconds.
+   - The thread prints the current time and the new MAC address being set.
+
+2. **Changing MAC Address**:
+   - The `change_mac_address()` method disables the network interface, updates the MAC address in the Windows registry, and then re-enables the interface.
+   - The new MAC address is generated using the `generate_random_mac()` method.
+
+3. **Random MAC Address Generation**:
+   - The `generate_random_mac()` method creates a random MAC address. It starts with a fixed OUI (Organizationally Unique Identifier) and randomizes the remaining bytes.
+
+4. **Stopping the Thread**:
+   - The script handles a `KeyboardInterrupt` (Ctrl+C) gracefully, stopping the thread and exiting the program.
+
+### How to Run the Script:
+
+1. **Prerequisites**:
+   - Ensure Python is installed on your system.
+   - The script is designed for Windows systems and uses Windows-specific commands (`netsh` and `reg`).
+
+2. **Running the Script**:
+   - Save the script to a file, for example, `mac_randomizer.py`.
+   - Run the script with administrative privileges to allow changes to the network interface and registry:
+     ```bash
+     python mac_randomizer.py
+     ```
+
+3. **Customizing the Script**:
+   - **`interface`**: Change `"Ethernet"` to the name of your network interface. You can find this name in the Network Connections control panel or by running `netsh interface show interface`.
+
+### Example:
+
+If your network interface is named `"Wi-Fi"`, you would modify the `interface` variable like so:
+
+```python
+interface = "Wi-Fi"
+```
+
+
+### Disclaimer:
+This script modifies network settings and the Windows registry, which can affect your network connectivity. Use with caution and ensure you have proper authorization before running it in a production environment.
