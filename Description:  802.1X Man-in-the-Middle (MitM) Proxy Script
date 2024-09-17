@@ -1,0 +1,49 @@
+### Script Description:
+
+**802.1X Man-in-the-Middle (MitM) Proxy Script**
+
+This Python script uses the Scapy library to perform a Man-in-the-Middle (MitM) attack on a network running 802.1X authentication. It works by forwarding packets between a client and an authentication server, potentially allowing an attacker to inspect, modify, or intercept EAPOL (Extensible Authentication Protocol over LAN) packets during the authentication process.
+
+The script listens on two network interfaces: one connected to the client and another connected to the server. It captures EAPOL packets from both sides and forwards them to the respective counterpart (client-to-server and server-to-client).
+
+### Attack Details:
+
+- **802.1X MitM Attack**: This type of attack can intercept and manipulate traffic between a client and an authentication server during the 802.1X authentication process. By positioning themselves between the client and the server, the attacker can observe authentication exchanges, alter packets, or attempt to exploit weaknesses in the authentication protocol.
+
+### How the Script Works:
+
+1. **Packet Handling**:
+   - **`handle_client_packet(packet)`**: Captures packets from the client, checks if they are EAPOL packets, and forwards them to the server.
+   - **`handle_server_packet(packet)`**: Captures packets from the server, checks if they are EAPOL packets, and forwards them to the client.
+   
+2. **Starting the Attack**:
+   - The **`start_mitm()`** function initializes the attack by sniffing packets on both the client and server interfaces simultaneously. It uses two threads to ensure that packets from both sides are captured and forwarded in real-time.
+
+### How to Run the Script:
+
+1. **Prerequisites**:
+   - You need **Python 3.x** and **Scapy** installed:
+     ```bash
+     pip install scapy
+     ```
+   - You also need root or administrative privileges to sniff and send packets on network interfaces.
+
+2. **Running the Script**:
+   - The script requires two network interfaces: one connected to the client and one connected to the authentication server.
+   - To start the attack, specify both interfaces:
+     ```bash
+     sudo ./mitm_proxy.py -c <client_interface> -s <server_interface>
+     ```
+   - Replace `<client_interface>` with the network interface connected to the client and `<server_interface>` with the interface connected to the server.
+
+3. **Example**:
+   ```bash
+   sudo ./mitm_proxy.py -c eth0 -s eth1
+   ```
+
+4. **Script Options**:
+   - `-c`, `--client-interface`: Network interface connected to the client.
+   - `-s`, `--server-interface`: Network interface connected to the server.
+
+### Disclaimer:
+This script is for educational and research purposes only. Unauthorized use of this script on networks without explicit permission is illegal and unethical. Ensure that you have proper authorization before conducting any tests on a network.
