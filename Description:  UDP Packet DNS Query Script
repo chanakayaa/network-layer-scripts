@@ -1,0 +1,50 @@
+### Script Description:
+
+**UDP Packet DNS Query Script**
+
+This Python script uses Scapy to craft and send a UDP packet to a target IP address on a specific port (commonly used for DNS traffic). The script sends a DNS query for the domain "example.com" to the target and waits for a response. If a response is received, it is displayed; otherwise, the script reports that no response was received.
+
+### Attack/Use Case Details:
+
+- **UDP Traffic Generation**: This script generates a DNS query, which is sent over UDP to the target IP address and port.
+  
+- **DNS Query**: The script queries for the domain "example.com" using the DNS protocol. DNS uses UDP for its queries, and port 53 is the default port for DNS services. The script waits for a response and prints the result if a reply is received.
+
+### How the Script Works:
+
+1. **Crafting the Packet**:
+   - The script builds a UDP packet containing a DNS query for "example.com". It specifies the destination IP and port (port 53 in this case, which is the standard DNS port).
+   
+2. **Sending the Packet**:
+   - The script sends the UDP packet using Scapy's `sr1()` function, which sends the packet and waits for one response. The timeout is set to 2 seconds, meaning the script will wait 2 seconds for a reply before considering it as "no response."
+   
+3. **Checking the Response**:
+   - If a response is received from the target, it is displayed using Scapy's `show()` method, which prints out the contents of the reply packet. If no response is received, the script prints a "No Response received" message.
+
+### How to Run the Script:
+
+1. **Prerequisites**:
+   - Install Scapy if it's not already installed:
+     ```bash
+     pip install scapy
+     ```
+   - Ensure you have root or administrative privileges to send and receive raw network packets.
+
+2. **Running the Script**:
+   - Modify the target IP and port in the script to the IP address and port you want to query. Then run the script:
+     ```bash
+     sudo python3 dns_query.py
+     ```
+
+3. **Customizing the Script**:
+   - **`target_ip`**: Change this value to the target IP address of the DNS server or service you want to query.
+   - **`target_port`**: By default, this is set to 53 for DNS, but you can modify it to another port if needed.
+   - **`qname`**: This is the domain being queried. The default is "example.com," but you can change it to any other domain.
+
+
+### Stopping the Script:
+
+The script will stop automatically after receiving a response or if the timeout period elapses. You can also terminate it using `Ctrl+C` if needed.
+
+### Disclaimer:
+This script is for educational purposes and should only be used in authorized environments. Sending unauthorized DNS queries or UDP traffic may be illegal or unethical. Ensure you have proper authorization before conducting any tests on networks or systems.
