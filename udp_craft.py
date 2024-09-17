@@ -2,7 +2,7 @@ from scapy.all import *
 
 
 #Set the target IP Address and port 
-target_ip = "141.11.84.145"
+target_ip = "x.x.x.x"
 target_port = 53 #Commonly used for DNS
 
 
