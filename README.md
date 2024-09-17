@@ -90,6 +90,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Feel free to submit issues, feature requests, or pull requests. Contributions are welcome!
 
----
-
-Replace `"yourusername"` with your GitHub username and update any other details specific to your repository.
