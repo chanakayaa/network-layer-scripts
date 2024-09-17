@@ -2,10 +2,10 @@ from scapy.all import *
 
 import os
 
-victim_ip = "141.11.84.149"
-gateway_ip = "141.11.84.129"
-victim_mac = "00:05:9a:3c:7a:00"
-gateway_mac = "94:33:d8:21:69:24"
+victim_ip = "X.X.X.X"
+gateway_ip = "X.X.X.X"
+victim_mac = "X.X.X.X"
+gateway_mac = "X.X.X.X"
 
 
 def spoof(target_ip, target_mac, spoof_ip):
