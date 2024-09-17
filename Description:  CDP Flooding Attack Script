@@ -1,0 +1,54 @@
+### Script Description:
+
+**CDP Flooding Attack Script**
+
+This Python script is designed to launch a CDP (Cisco Discovery Protocol) flooding attack. It generates a large number of forged CDP packets and sends them on the specified network interface, potentially overwhelming network devices that rely on CDP for network topology discovery and device management.
+
+CDP is a Layer 2 protocol used by Cisco devices to share information about directly connected Cisco equipment. By flooding a network with bogus CDP packets, the attacker can disrupt network services, leading to performance degradation or even crashes of network devices like switches or routers.
+
+### Attack Details:
+
+- **CDP Flooding**: The attack works by sending numerous CDP packets with randomly generated MAC addresses at a high rate. Since many network devices, especially Cisco equipment, use CDP for discovery and management, overwhelming the system with fake CDP traffic can cause significant issues, including high CPU usage or even crashes on affected devices.
+
+### How the Script Works:
+
+1. **CDP Packet Generation**:
+   - The **`generate_cdp_packet()`** function generates a basic CDP packet. It uses the Scapy `Ether` layer to craft a packet with a random MAC address as the source, the standard Cisco CDP multicast destination address, and some raw CDP-specific payload.
+
+2. **CDP Flooding**:
+   - The **`send_cdp_flood(interface)`** function sends an endless stream of generated CDP packets over the specified interface. The loop continuously generates and sends the packets with a small delay (0.01 seconds) to avoid overwhelming the attacker's system.
+
+### How to Run the Script:
+
+1. **Prerequisites**:
+   - Ensure that **Python 3.x** and **Scapy** are installed:
+     ```bash
+     pip install scapy
+     ```
+   - You must run the script with root or administrative privileges to send raw packets over the network interface.
+   
+2. **Running the Script**:
+   - You need to specify the network interface to use for sending the packets. Use the following command to find the name of your network interface:
+     ```bash
+     ifconfig  # On Linux/macOS
+     ipconfig  # On Windows
+     ```
+   - Once you have the correct interface name, run the script:
+     ```bash
+     sudo python3 cdp_flood.py -i <interface>
+     ```
+
+3. **Example**:
+   ```bash
+   sudo python3 cdp_flood.py -i eth0
+   ```
+
+4. **Script Options**:
+   - `-i`, `--interface`: Specify the network interface to use for sending CDP packets.
+
+### Stopping the Attack:
+
+- You can stop the attack by pressing `Ctrl+C`. The script will then terminate and stop sending packets.
+
+### Disclaimer:
+This script is provided for educational and research purposes only. Launching a CDP flood attack on unauthorized networks or equipment is illegal and unethical. Ensure that you have proper authorization before conducting any tests on a network.
