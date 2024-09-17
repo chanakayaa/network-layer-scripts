@@ -1,0 +1,63 @@
+### Script Description:
+
+**ARP Spoofing Attack Script**
+
+This Python script uses Scapy to perform an ARP (Address Resolution Protocol) spoofing attack. The goal of ARP spoofing is to intercept communication between two devices on a local network, such as a victim machine and a gateway (router). By sending forged ARP responses, the attacker can convince both the victim and the gateway that the attacker's machine is the legitimate device, thereby allowing the attacker to act as a "man-in-the-middle."
+
+The script repeatedly sends malicious ARP responses to the victim and gateway, tricking them into sending their traffic through the attacker's machine. Once the script is interrupted, it attempts to restore the original ARP tables by sending correct ARP information to both devices.
+
+### Attack Details:
+
+- **ARP Spoofing**: ARP spoofing is a type of attack where an attacker sends falsified ARP messages over a local network to associate their MAC address with the IP address of another device. This allows the attacker to intercept, modify, or stop traffic between two devices, effectively becoming a man-in-the-middle.
+
+### How the Script Works:
+
+1. **Spoofing Function**:
+   - **`spoof(target_ip, target_mac, spoof_ip)`**: Sends an ARP reply to the target IP and MAC address, telling it that the spoofed IP belongs to the attacker's machine. This is done for both the victim and the gateway.
+
+2. **Restoring Function**:
+   - **`restore(target_ip, target_mac, source_ip, source_mac)`**: After the attack is complete, this function restores the correct ARP entries by sending correct ARP responses to the victim and gateway, ensuring normal network operation.
+
+3. **Starting ARP Spoofing**:
+   - In the `try` block, the script enters an infinite loop where it continuously sends ARP spoofing packets every 2 seconds. This ensures that the victim and gateway are consistently fed with the wrong ARP information.
+
+4. **Restoring Network**:
+   - On interrupt (e.g., Ctrl+C), the script stops the attack and uses the `restore()` function to send the correct ARP information to the victim and the gateway. It also re-enables IP forwarding by setting the system's `/proc/sys/net/ipv4/ip_forward` flag to `1`.
+
+### How to Run the Script:
+
+1. **Prerequisites**:
+   - You need **Python 3.x** and **Scapy** installed:
+     ```bash
+     pip install scapy
+     ```
+   - Root or administrative privileges are required to send ARP packets and modify system settings.
+   - You need to manually specify the IP and MAC addresses of the victim and gateway in the script:
+     ```python
+     victim_ip = "X.X.X.X"  # IP of the victim
+     gateway_ip = "X.X.X.X"  # IP of the gateway (e.g., the router)
+     victim_mac = "X.X.X.X"  # MAC address of the victim
+     gateway_mac = "X.X.X.X"  # MAC address of the gateway
+     ```
+
+2. **Running the Script**:
+   - Run the script with root privileges:
+     ```bash
+     sudo python3 arp_spoof.py
+     ```
+
+3. **Stopping the Attack**:
+   - When you want to stop the attack, press `Ctrl+C`. The script will automatically restore the correct ARP table entries for the victim and gateway.
+
+### Example Configuration:
+
+For example, if your victim's IP is `192.168.1.10` and the gateway's IP is `192.168.1.1`, with respective MAC addresses, you would set the variables in the script like this:
+```python
+victim_ip = "192.168.1.10"
+gateway_ip = "192.168.1.1"
+victim_mac = "AA:BB:CC:DD:EE:FF"
+gateway_mac = "11:22:33:44:55:66"
+```
+
+### Disclaimer:
+This script is for educational and research purposes only. Unauthorized use of ARP spoofing is illegal and unethical. Ensure that you have proper authorization before conducting any tests on a network.
