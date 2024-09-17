@@ -1,0 +1,63 @@
+### Script Description:
+
+**VLAN Hopping Attack Script (Double Tagging with ICMP Requests)**
+
+This Python script performs a **VLAN Hopping** attack using the **double-tagging method**. VLAN hopping is an attack that takes advantage of the way some switches process VLAN tags. In this script, multiple ICMP Echo Request packets (pings) are sent using double-tagged Ethernet frames. The attack aims to bypass the VLAN boundary and reach another VLAN by sending packets with two VLAN tags (the outer tag for the current VLAN and the inner tag for the target VLAN).
+
+### Attack/Use Case Details:
+
+- **Double Tagging VLAN Hopping**: This method involves sending an Ethernet frame with two 802.1Q tags. The outer tag represents the VLAN the attacker is currently in, and the inner tag represents the VLAN the attacker wants to access. Some switches may remove the outer tag and forward the packet with the inner tag intact to the target VLAN, bypassing VLAN segmentation.
+
+- **ICMP Echo Requests**: The attack involves sending multiple ICMP Echo Requests (ping) to the target in the victim VLAN to confirm connectivity.
+
+### How the Script Works:
+
+1. **Double-Tagged Packet Creation**:
+   - The script constructs an Ethernet frame containing two VLAN tags using Scapy's `Dot1Q()` fields. 
+   - The outer VLAN tag corresponds to the attacker's current VLAN, while the inner VLAN tag corresponds to the target VLAN.
+
+2. **Sending ICMP Echo Requests**:
+   - The script sends a specified number of ICMP Echo Request packets (ping) with double VLAN tags to the target IP within the victim's VLAN.
+   
+3. **Check for Replies**:
+   - After sending each packet, the script checks if the target responds to the ping request. If a response is received, the response is displayed.
+
+4. **Arguments**:
+   - The script takes various parameters as input, such as the network interface, target IP, victim MAC address, VLAN tags, and the number of packets to send.
+
+### How to Run the Script:
+
+1. **Prerequisites**:
+   - Install Scapy if it's not already installed:
+     ```bash
+     pip install scapy
+     ```
+   - Ensure you have root or administrative privileges to run the script and send raw network packets.
+
+2. **Running the Script**:
+   - To run the script, you need to provide the network interface, target IP, and VLAN tags:
+     ```bash
+     sudo python3 vlan_hopping.py -i eth0 -t 192.168.1.100 -vm 00:11:22:33:44:55 -am 00:aa:bb:cc:dd:ee -ov 10 -iv 20 -c 5
+     ```
+   - **Explanation**:
+     - `-i eth0`: Interface to use for sending the attack (replace with your interface).
+     - `-t 192.168.1.100`: Target IP in the VLAN you want to hop into.
+     - `-vm 00:11:22:33:44:55`: MAC address of the victim machine.
+     - `-am 00:aa:bb:cc:dd:ee`: MAC address of the attacker's machine.
+     - `-ov 10`: VLAN tag of the attacker's current VLAN.
+     - `-iv 20`: VLAN tag of the target VLAN to hop into.
+     - `-c 5`: Number of ICMP packets to send.
+
+3. **Customizing the Script**:
+   - You can modify the target IP address, VLAN tags, and other parameters by changing the script's arguments.
+
+### Example:
+
+```bash
+sudo python3 vlan_hopping.py -i eth0 -t 192.168.10.5 -vm 00:15:5d:00:03:00 -am 00:15:5d:00:04:00 -ov 100 -iv 200 -c 10
+```
+
+In this example, the script sends 10 ICMP Echo Request packets using double-tagged VLAN frames from VLAN 100 to VLAN 200, with the specified victim and attacker MAC addresses.
+
+### Disclaimer:
+This script is for educational purposes and should only be used in authorized environments. Unauthorized VLAN hopping attacks may be illegal or unethical. Always ensure you have permission before conducting such tests.
